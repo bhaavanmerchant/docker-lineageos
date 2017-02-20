@@ -1,7 +1,7 @@
 # Build environment for LineageOS
 
 FROM ubuntu:16.04
-MAINTAINER Michael Stucki <michael@stucki.io>
+MAINTAINER Bhaavan Merchant
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -18,14 +18,15 @@ RUN apt-get install -y g++-multilib gcc-multilib lib32ncurses5-dev lib32readline
 # Install additional packages which are useful for building Android
 RUN apt-get install -y ccache rsync tig sudo imagemagick
 RUN apt-get install -y android-tools-adb android-tools-fastboot
-RUN apt-get install -y bc bsdmainutils file screen
-RUN apt-get install -y bash-completion wget nano
+RUN apt-get install -y bc bsdmainutils file tmux
+RUN apt-get install -y zsh bash-completion wget nano
 
 RUN useradd build && rsync -a /etc/skel/ /home/build/
 
 RUN mkdir /home/build/bin
 RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /home/build/bin/repo
 RUN chmod a+x /home/build/bin/repo
+RUN chsh -s /usr/bin/zsh build
 
 # Add sudo permission
 RUN echo "build ALL=NOPASSWD: ALL" > /etc/sudoers.d/build
